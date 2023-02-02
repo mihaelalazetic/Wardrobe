@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="Purple">#AE2EE4</color>
+    <color name="Blue">#0020EE</color>
+    <color name="Black">#FF000000</color>
+    <color name="White">#FFFFFFFF</color>
+    <color name="Rose_Gold">#DFFF8EB5</color>
+    <color name="Beige">#E1C699</color>
+    <color name="Orange">#FF8300</color>
+    <color name="Pink">#FF06DF</color>
+    <color name="Yellow">#FFE70E</color>
+    <color name="Green">#43CF1C</color>
+    <color name="Cyan">#0EFFF7</color>
+    <color name="Red">#E80909</color>
+    <color name="Sage">#618C4B</color>
+    <color name="Gold">#D1C341</color>
+    <color name="Brown">#5C350D</color>
+    <color name="Silver">#979797</color>
+    <color name="Grey">#454545</color>
+    <color name="Olive">#808000</color>
+    <color name="Maroon">#800000</color>
+    <color name="Lime">#00FF00</color>
+    <color name="Teal">#008080</color>
+    <color name="Navy">#000080</color>
+    <color name="Denim">#536DFE</color>
+    <color name="Other">#00FFFFFF</color>
+
+    <array name="colors">
+        <item name="Purple">@color/Purple</item>
+        <item name="Blue">@color/Blue</item>
+        <item name="Black">@color/Black</item>
+        <item name="White">@color/White</item>
+        <item name="Rose Gold">@color/Rose_Gold</item>
+        <item name="Beige">@color/Beige</item>
+        <item name="Orange">@color/Orange</item>
+        <item name="Pink">@color/Pink</item>
+        <item name="Yellow">@color/Yellow</item>
+        <item name="Green">@color/Green</item>
+        <item name="Cyan">@color/Cyan</item>
+        <item name="Red">@color/Red</item>
+        <item name="Sage Green">@color/Sage</item>
+        <item name="Gold">@color/Gold</item>
+        <item name="Brown">@color/Brown</item>
+        <item name="Silver">@color/Silver</item>
+        <item name="Grey">@color/Grey</item>
+        <item name="Olive">@color/Olive</item>
+        <item name="Maroon">@color/Maroon</item>
+        <item name="Lime">@color/Lime</item>
+        <item name="Teal">@color/Teal</item>
+        <item name="Navy">@color/Navy</item>
+        <item name="Denim">@color/Denim</item>
+        <item name="Other">@color/Other</item>
+    </array>
+</resources>
