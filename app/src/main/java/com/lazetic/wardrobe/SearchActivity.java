@@ -7,14 +7,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +38,7 @@ public class SearchActivity extends AppCompatActivity implements RecyclerviewOnC
     DBHelper dbHelper;
     SearchView searchView;
     ImageButton back;
+    Spinner categorySpinner;
 
 
     @Override
@@ -52,7 +55,30 @@ public class SearchActivity extends AppCompatActivity implements RecyclerviewOnC
         Objects.requireNonNull(getSupportActionBar()).setTitle(name + "'s wardrobe search!");
         searchView = findViewById(R.id.idSearchView);
         back = findViewById(R.id.back);
+        categorySpinner = findViewById(R.id.categorySpinner);
 
+        List<String> categories = WardrobeCategory.getWardrobeCategories();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(dataAdapter);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                List<Wardrobe> wardrobeList = cat(dbHelper);
+                RecyclerView recyclerView = findViewById(R.id.recycler);
+                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setAdapter(new MyAdapter(wardrobeList, getBaseContext(), SearchActivity.this));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
         back.setOnClickListener(view -> {
             Intent i = new Intent(this, HomeActivity.class);
             startActivity(i);
@@ -93,6 +119,26 @@ public class SearchActivity extends AppCompatActivity implements RecyclerviewOnC
         });
     }
 
+    private List<Wardrobe> cat(DBHelper dbHelper) {
+        List<Wardrobe> wardrobeList = new ArrayList<>();
+        Cursor c = dbHelper.getWardrobeByCategory(categorySpinner.getSelectedItem().toString());
+        if (c.moveToFirst()) {
+            int name = c.getColumnIndex("name");
+            int color = c.getColumnIndex("color");
+            int category = c.getColumnIndex("category");
+            int image = c.getColumnIndex("image");
+            int id = c.getColumnIndex("id");
+            do {
+                wardrobeList.add(new Wardrobe(c.getString(name),
+                        c.getString(color),
+                        WardrobeCategory.getByName(c.getString(category).toUpperCase()),
+                        GlobalFunctions.getImage(c.getBlob(image)),
+                        c.getInt(id)));
+            } while (c.moveToNext());
+        }
+        return wardrobeList;
+    }
+
     private List<Wardrobe> data(String search, View view, DBHelper dbHelper) {
         List<Wardrobe> wardrobeList = new ArrayList<>();
         if (search.trim().length() == 0) {
@@ -131,7 +177,7 @@ public class SearchActivity extends AppCompatActivity implements RecyclerviewOnC
                 } while (c.moveToNext());
                 snack("Showing results for search '" + search + "'", view, R.color.myPurple, R.drawable.list);
                 c.close();
-            }else {
+            } else {
                 snack("No results for search '" + search + "'", view, R.color.Orange, R.drawable.warning);
             }
 
